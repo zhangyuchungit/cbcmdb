@@ -7,7 +7,7 @@ PyMySQL (0.9.3)
 pytz (2019.3)
 setuptools (28.8.0)
 mysql 8.0
-
+x-admin
 ，没有复杂的套路，只有满满的真诚
 完成svn&maill账密信息
 完成项目信息管理
