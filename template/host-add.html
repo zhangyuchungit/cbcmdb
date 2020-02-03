@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>CBEST</title>
+        <link rel="stylesheet" href="/static/css/font.css">
+        <link rel="stylesheet" href="/static/css/xadmin.css">
+                <!--
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+
+
+        <script type="text/javascript" src="/static/lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="/static/js/xadmin.js"></script>
+
+        <!-- 让IE8/9支持媒体查询，从而兼容栅格
+        <!--[if lt IE 9]>
+
+            <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+            <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
+        <![endif] -->
+    </head>
+    
+    <body>
+
+        <div class="layui-fluid">
+            <div class="layui-row">
+                     <div class="layui-form-item">
+                        <label for="projectname" class="layui-form-label">
+                            <span class="x-red">*</span>项目名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="projectname" name="projectname" placeholder="小蜜蜂" class="layui-input"></div>
+
+                    <div class="layui-form-item">
+                        <label for="name" class="layui-form-label">
+                            <span class="x-red">*</span>项目名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="name" name="name" placeholder="小蜜蜂nginx" class="layui-input"></div>
+                    <div class="layui-form-item">
+                        <label for="insertip" class="layui-form-label">
+                            <span class="x-red">*</span>内网地址</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="insertip" name="insertip" placeholder="172.30.37.36" class="layui-input"></div>
+                    <div class="layui-form-item">
+                        <label for="useport" class="layui-form-label">
+                            <span class="x-red">*</span>端口</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="useport" name="useport" placeholder="22"  class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="username" class="layui-form-label">
+                            <span class="x-red">*</span>用户名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="username" name="username" placeholder="root"  class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="passwd" class="layui-form-label">
+                            <span class="x-red">*</span>密码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="passwd" name="passwd" placeholder="123456"  class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="DBschame" class="layui-form-label">
+                            <span class="x-red">*</span>url/DBschame</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="DBschame" name="DBschame" placeholder="无则需要填写无"class="layui-input"></div>
+                    </div>
+                     <div class="layui-form-item">
+                        <label for="DBschamename" class="layui-form-label">
+                            <span class="x-red">*</span>url/DBschame用户名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="DBschamename" name="DBschamename" placeholder="无则需要填写无"  class="layui-input"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="DBschamepasswd" class="layui-form-label">
+                            <span class="x-red">*</span>url/DBschame密码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="DBschamepasswd" name="DBschamepasswd" placeholder="无则需要填写无"class="layui-input"></div>
+                    </div>
+            </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label for="notice" class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="8335 员工卡" id="notice" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+        </div>
+        <div class="layui-form-item">
+
+            <label for="subtijiao" class="layui-form-label"></label>
+            <!--
+            <button class="layui-btn" lay-filter="add" lay-submit="" id="tijiao" onclick="tijiao()" >增加</button></div>
+            !-->
+            <button class="layui-btn" id="subtijiao" >增加</button></div>
+
+        <script type="text/javascript" src="/static/js/jquery-1.9.0.min.js"></script>
+        <script>
+            $('#subtijiao').click(function () {
+                arr = [];
+                var projectname = $('#projectname').val();
+                var name =  $('#name').val();
+                var insertip = $('#insertip').val();
+                var useport = $('#useport').val();
+                var username = $('#username').val();
+                var passwd = $('#passwd').val();
+                var DBschame = $('#DBschame').val();
+                var DBschamename = $('#DBschamename').val();
+                var DBschamepasswd = $('#DBschamepasswd').val();
+                var notice = $('#notice').val();
+
+                arr.push(projectname,name,insertip,useport,username,passwd,DBschame,DBschamename,DBschamepasswd,notice);
+
+                 if(name.length <= 0 ){
+                     $('#name').val("请输入项目名")
+                     return false;
+                 }else if( insertip.length <= 0) {
+                      $('#insertips').html("请输入ip")
+                 }else if( projectname.length <= 0) {
+                      $('#projectname').html("请输入是何项目")
+                }else{
+                //alert('已提交数据');
+                $.ajax({
+            	url:'/cmdb/hostadd/',
+            	type:'POST',
+                dataType : 'json',
+                traditional : true,
+            	data:{data:arr},
+        		success:function(fetch_dic){
+            	        $('#projectname').val('');
+                        $('#name').val('');
+                        $('#insertip').val('');
+                        $('#useport').val('');
+                        $('#username').val('');
+                        $('#passwd').val('');
+                        $('#DBschame').val('');
+                        $('#DBschamename').val('');
+                        $('#DBschamepasswd').val('');
+                        $('#notice').val('');
+                        window.opener = null;
+                        window.open('', '_self');
+                        window.close();
+                        //先得到当前iframe层的索引
+                        var index = parent.layer.getFrameIndex(window.name)
+                        //console.log(index)
+                        parent.layer.close(index);
+                         //刷新父页面
+                        parent.location.reload();
+        			//var obj = jQuery.parseJSON(fetch_dic);
+        			//console.log(fetch_dic);
+        			//console.log(obj.msg);
+                     //alert(obj.fetch)
+                    // console.log(obj.list_mysql_svndir[0]);
+        			//console.log('sucess');
+        			//console.log(obj.list_mysql_svndir[0]);
+        			//$('#list_mysql_svndir').html(obj.list_mysql_svndir[0]);
+        		},
+        		error:function(){
+        			console.log('error')
+        		}
+            })
+            }
+                })
+
+        </script>
+
+    </body>
+
+</html>

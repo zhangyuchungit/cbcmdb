@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>CBEST</title>
+        <link rel="stylesheet" href="/static/css/font.css">
+        <link rel="stylesheet" href="/static/css/xadmin.css">
+
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+
+
+        <script type="text/javascript" src="/static/lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="/static/js/xadmin.js"></script>
+
+        <!-- 让IE8/9支持媒体查询，从而兼容栅格
+        <!--[if lt IE 9]>
+
+            <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+            <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
+        <![endif] -->
+    </head>
+    
+    <body>
+     <div class="layui-card">
+                        <div class="layui-card-header">项目信息</div>
+                        <div class="layui-card-body ">
+                            <table class="layui-table">
+                                <tbody>
+                                    <tr>
+                                        <th>项目名称</th>
+                                        <td>
+                                            {% for i in projectinfo %}
+                                                  {{ i.projectname }}
+                                            {% endfor %}
+                                        </td></tr>
+                                    <tr>
+                                        <th>服务器地址</th>
+                                        <td>
+                                            {% for i in insertipinfo %}
+                                                  {{ i }};
+                                            {% endfor %}
+                                        </td></tr>
+                                        <th>操作系统</th>
+                                        <td>CENTOS 7</td></tr>
+                                     <tr>
+                                        <th>磁盘信息</th>
+                                        <td>4,8,/ 100 /data 500</td></tr>
+                                    <tr>
+                                        <th>运行环境&&数据库信息</th>
+                                        <td>java,nginx,mysql8.0.11</td></tr>
+                                    <tr>
+                                        <th>app端口对应信息</th>
+                                        <td>cbest-order.jar 2010;cbest-erp 2011</td></tr>
+                                     <tr>
+                                        <th>所有主机备注信息</th>
+                                        <td>
+                                          {% for n in noticemsg %}
+                                                  {{ n }};   ;
+                                            {% endfor %}
+                                        </td></tr>
+                                </tbody>
+                            </table>
+
+                            <!--
+                            <div class="layui-form-item layui-form-text" style="margin-left: unset;">
+                                        <label for="notice" class="layui-form-label">备注信息</label>
+                                        <div class="layui-input-block">
+                                            <textarea id="notice" class="layui-textarea">{{ i.notice }} </textarea>
+                                        </div>
+                            </div>
+                            !-->
+
+                            <div class="layui-card-body ">
+                                <table id="orders" class="layui-table layui-form">
+                                    <thead>
+                                        <tr>
+                                            <th>内部IP</th>
+                                            <th>useport</th>
+                                            <th>url/DBschame</th>
+                                            <th>url/DBschame下用户名</th>
+                                            <th>url/DBschame下密码</th>
+                                            <th>备注</th>
+                                            <th>编辑</th>
+                                        </tr>
+
+                                        {% for mes in datainfo %}
+                                         <tr>
+                                             <th>{{ mes.insertip }}</th>
+                                            <th>{{ mes.useport }}</th>
+                                            <th>{{ mes.DBschame }}</th>
+                                            <th>{{ mes.DBschamename }}</th>
+                                            <th>{{ mes.DBschamepasswd }}</th>
+                                            <th>{{ mes.notice }}</th>
+                                            <th class="td-manage">
+                                                <a title="编辑" onclick="viewedit(this, {{ mes.id }}, '/cmdb/edit/?dataid={{ mes.id}}' )"  href="javascript:;">
+                                                    <i class="layui-icon">&#xe642;</i></a>
+                                            </th>
+                                        </tr>
+                                        {% endfor %}
+
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+     </div>
+           <!--
+            <label for="subupdate" class="layui-form-label"></label>
+            <!--
+            <button class="layui-btn" lay-filter="add" lay-submit="" id="tijiao" onclick="tijiao()" >增加</button></div>
+
+            <button class="layui-btn" id="subupdate" >更新数据</button></div>
+            !-->
+        <script type="text/javascript" src="/static/js/jquery-1.9.0.min.js"></script>
+         <script>
+             $('#subupdate').click(function () {
+                 arr = [];
+                var name =  $('#name').val();
+                var insertip = $('#insertip').val();
+                var useport = $('#useport').val();
+                var username = $('#username').val();
+                var passwd = $('#passwd').val();
+                var DBschame = $('#DBschame').val();
+                var DBschamename = $('#DBschamename').val();
+                var DBschamepasswd = $('#DBschamepasswd').val();
+                var notice = $('#notice').val();
+                var id = $('#id').val();
+                arr.push(name,insertip,useport,username,passwd,DBschame,DBschamename,DBschamepasswd,notice,id);
+
+                 if(name.length <= 0 ){
+                     $('#name').val("请输入项目名")
+                     return false;
+                 }else if( insertip.length <= 0) {
+                      $('#insertips').html("请输入ip")
+
+                }else{
+                //alert('已提交数据');
+                $.ajax({
+            	url:'/cmdb/edit/',
+            	type:'POST',
+                dataType : 'json',
+                traditional : true,
+            	data:{datalist:arr},
+        		success:function(fetch_dic){
+                        $('#name').val('');
+                        $('#insertip').val('');
+                        $('#useport').val('');
+                        $('#username').val('');
+                        $('#passwd').val('');
+                        $('#DBschame').val('');
+                        $('#DBschamename').val('');
+                        $('#DBschamepasswd').val('');
+                        $('#notice').val('');
+                        $('#id').val('');
+                        //先得到当前iframe层的索引
+                        var index = parent.layer.getFrameIndex(window.name)
+                        //console.log(index)
+                        parent.layer.close(index);
+                         //刷新父页面
+                        parent.location.reload();
+
+
+
+                        //window.open("http://130.130.86.132:9999/cmdb/order")
+
+
+        			//var obj = jQuery.parseJSON(fetch_dic);
+        			//console.log(fetch_dic);
+        			//console.log(obj.msg);
+                     //alert(obj.fetch)
+                    // console.log(obj.list_mysql_svndir[0]);
+        			//console.log('sucess');
+        			//console.log(obj.list_mysql_svndir[0]);
+        			//$('#list_mysql_svndir').html(obj.list_mysql_svndir[0]);
+        		},
+        		error:function(){
+        			console.log('error')
+        		}
+            })
+            }
+                });
+
+            function viewedit(obj, id, url, h, w) {
+             console.log(id);
+            if (url == null || url == '') {
+                var url="404.html";
+            };
+            if (w == null || w == '') {
+                var w=($(window).width()*0.9);
+            };
+            if (h == null || h == '') {
+                var h=($(window).height() - 50);
+            };
+            var index = layer.open({
+                type: 2,
+                area: [w+'px', h +'px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: 'Edit',
+                content: url
+            });
+         }
+
+
+
+         </script>
+
+    </body>
+
+</html>
