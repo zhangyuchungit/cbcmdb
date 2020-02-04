@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^svninfoadd/$', views.svninfoadd, name='svninfoadd'),
     url(r'^svninfoedit/$', views.svninfoedit, name='svninfoedit'),
     url(r'^projectview/$', views.projectview, name='projectview'),
+    url(r'^login/$', views.login, name='login'),
 
 
 ]

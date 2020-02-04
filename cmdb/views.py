@@ -1,13 +1,21 @@
-from django.shortcuts import render,render_to_response
-from django.http.response import HttpResponse
+
+from django.shortcuts import render,render_to_response,redirect
+from django.http.response import HttpResponse,HttpResponseRedirect
 from cmdb import  models
 from django.db.models import Q
 import json,math
 import ssl
 # Create your views here.
-def Index(request):
-    return render(request, 'index.html')
+def Check_Login(func):  #自定义登录验证装饰器
+    def warpper(request,*args,**kwargs):
+        is_login = request.session.get('IS_LOGIN', False)
+        if is_login:
+            return func(request,*args,**kwargs)
+        else:
+            return redirect("/cmdb/login/")
+    return warpper
 
+@Check_Login
 def order(request):
     #查
     #   resave = models.Projectinfo.objects.all()
@@ -63,8 +71,9 @@ def order(request):
 
         return render(request, 'order-list.html')
     else:
-        return redirect('/index')
+        return HttpResponseRedirect('/login')
 
+@Check_Login
 def projectname(request):
     if request.method == "GET":
         projectsearch = request.GET.get('getprojectname')
@@ -91,15 +100,19 @@ def projectname(request):
     else:
         return render(request, 'projectname.html')
 
+@Check_Login
 def adminlist(request):
     return render(request, 'admin-list.html')
 
+@Check_Login
 def addproject(request):
     return render(request, 'order-add.html')
+
+@Check_Login
 def cate(request):
     return render(request, 'cate.html')
 
-
+@Check_Login
 def hostadd(request):
     if request.method == "GET":
 
@@ -145,6 +158,7 @@ def hostadd(request):
 
 
 #分页
+@Check_Login
 def currentpage(request):
     pagenumlist = []
     if request.method == "GET":
@@ -197,6 +211,7 @@ def currentpage(request):
     else:
         return render(request, 'order-list.html')
 
+@Check_Login
 def edit(request):
     if request.method == "GET":
         idnum = request.GET.get('dataid')
@@ -260,7 +275,7 @@ def edit(request):
 
         return render(request, 'host-edit.html')
 
-
+@Check_Login
 def projectview(request):
     if request.method == "GET":
         #保存项目信息
@@ -310,7 +325,7 @@ def projectview(request):
         return render(request, 'host-view.html')
 
 
-
+@Check_Login
 def view(request):
     if request.method == "GET":
         #保存项目信息
@@ -363,6 +378,7 @@ def view(request):
     else:
         return render(request, 'host-view.html')
 
+@Check_Login
 def svninfo(request):
     pagenumlist= []
     if request.method == "GET":
@@ -404,6 +420,7 @@ def svninfo(request):
             print(searchthing)
             return render_to_response('svninfo-list.html', {'newsvninfonresult': newsvninfonresult,})
 
+@Check_Login
 def svninfoadd(request):
     if request.method == "GET":
 
@@ -435,6 +452,7 @@ def svninfoadd(request):
         print(789)
         return render(request, 'svninfo-add.html')
 
+@Check_Login
 def svninfoedit(request):
     if request.method == "GET":
         svnidnum = request.GET.get('svninfoid')
@@ -489,7 +507,34 @@ def svninfoedit(request):
     else:
         return render(request, 'svninfo-edit.html')
 
+def login(request):
+    if request.method == "GET":
+        return render(request, 'login.html')
+    elif request.method == "POST":
+        #验证通过跳index 未通过还是再login
+        reusername = request.POST.get('username')
+        repasswd = request.POST.get('password')
+        print(reusername,repasswd)
+        #SELECT * from cmdb_userinfo WHERE username="zhangyuchun" and passwd=123457
+        isdui = models.userinfo.objects.filter(username=reusername).filter(passwd=repasswd)
+        isuser=len(isdui)
+        print(isuser)
+        if isuser == 0:
+            print('login.html')
+            return render(request, 'login.html')
+        elif isuser == 1:
+            print('index.html')
+            request.session['IS_LOGIN'] = True  # 设置session的随机字段值
+            request.session['uname'] = reusername  # 设置uname字段为登录用户
+            return render(request, 'index.html')
+        else:
+            return render(request, 'login.html')
+    else:
+        return render(request, 'login.html')
 
+@Check_Login
+def Index(request):
+    return render(request, 'index.html')
 
 
 

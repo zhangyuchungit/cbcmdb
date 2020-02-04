@@ -22,7 +22,8 @@ import cmdb
 
 
 urlpatterns = [
-    url(r'^$', cmdb.urls.views.Index, name="index"),
+    url(r'^$', cmdb.urls.views.login, name="login"),
     path('admin/', admin.site.urls),
     url(r'cmdb/', include('cmdb.urls')),
+    url(r'login/', include('cmdb.urls')),
 ]

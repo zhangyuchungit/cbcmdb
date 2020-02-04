@@ -41,6 +41,11 @@ class svninfo(models.Model):
     otherpasswd = models.CharField(max_length=32, blank=True, verbose_name=u'otherpasswd')
     notices = models.CharField(max_length=32, blank=True, verbose_name=u'notices')
 
+class userinfo(models.Model):
+    username = models.CharField(max_length=64, verbose_name=u'姓名')
+    passwd = models.CharField(max_length=64,blank=True, verbose_name=u'密码')
+    email = models.CharField(max_length=128, blank=True,verbose_name=u'邮件')
+    phonenum = models.CharField(max_length=128, blank=True, verbose_name=u'电话')
 
 
 
