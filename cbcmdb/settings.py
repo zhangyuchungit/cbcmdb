@@ -87,8 +87,8 @@ DATABASES = {
         'NAME': 'cbest_cmdb',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '172.30.37.141',
-        'PORT': '3306',
+        'HOST': '1.1.1.1',
+        'PORT': '12345',
         'OPTIONS': {
            # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8',
